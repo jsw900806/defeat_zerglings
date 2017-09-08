@@ -207,19 +207,6 @@ def learn(env,
   sess = U.make_session(num_cpu=num_cpu)
   sess.__enter__()
 
-  def build_summaries():
-    episode_reward = tf.Variable(0.)
-    tf.summary.scalar("Reward", episode_reward)
-
-    summary_vars = [episode_reward]
-    summary_ops = tf.summary.merge_all()
-
-    return summary_ops, summary_vars
-
-  SUMMARY_DIR = './results'
-  summary_ops, summary_vars = build_summaries()
-  writer = tf.summary.FileWriter(SUMMARY_DIR, sess.graph)
-
 
   def make_obs_ph(name):
     return U.BatchInput((64, 64), name=name)
@@ -356,12 +343,6 @@ def learn(env,
 
       if done:
         print("Episode Reward : %s" % episode_rewards[-1])
-        summary_str = sess.run(summary_ops, feed_dict={
-          summary_vars[0]: episode_rewards[-1],
-        })
-
-        writer.add_summary(summary_str, num_episodes)
-        writer.flush()
         obs = env.reset()
         player_relative = obs[0].observation["screen"][_PLAYER_RELATIVE]
 
