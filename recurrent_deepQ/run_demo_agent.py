@@ -1,7 +1,7 @@
 import sys
 
 import gflags as flags
-from baselines import deepq
+from baselines import deepqLSTM
 from pysc2.env import sc2_env
 from pysc2.lib import actions
 from pysc2.env import run_loop
